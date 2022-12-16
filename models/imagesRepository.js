@@ -71,15 +71,25 @@ module.exports = class ImagesRepository extends require("./repository") {
   }
   getAll(params = null) {
     let images = super.getAll(params);
-    if (params?.keywords != null) {
+    if (params != null && params.keywords != null) {
+      let imagesRetained = [];
       let keywords = params.keywords.split(" ");
       if (keywords.length > 0) {
-        return images.filter((image) => {
+        for (let image of images) {
           let text = (image.Title + image.Description).toLowerCase();
-          return keywords.every((keyword) => text.indexOf(keyword) >= 0);
-        });
+          let retain = true;
+          for (let keyword of keywords) {
+            if (text.indexOf(keyword) < 0) {
+              retain = false;
+              break;
+            }
+          }
+          if (retain) imagesRetained.push(image);
+        }
       }
+      return imagesRetained;
+    } else {
+      return images;
     }
-    return images;
   }
 };

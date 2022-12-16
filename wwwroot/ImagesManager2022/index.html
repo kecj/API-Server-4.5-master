@@ -15,12 +15,12 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-    <link rel="stylesheet" href="css/site.css">
     <link rel="apple-touch-icon" sizes="180x180" href="images/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
     <link rel="manifest" href="images/site.webmanifest">
     <link rel="icon" href="favicon.ico">
+    <link rel="stylesheet" href="css/site.css">
 </head>
 
 <body>
@@ -238,21 +238,23 @@
 
         //### DÉCLARATION DES VARIABLES GLOBALS ####
 
+
+        let previousScrollPosition = 0;
+        let appendMode = false;
+        let connected = false;
+        let allUsers;
+        let hideSearchBar = true;
+        let imageIdToDelete = 0;
+        let selectedCategory = "";
+        let imagesCount = 50;
+        let appendCount = 3;
         let holdCheckETag = false;
         let currentETag = "";
         let createMode = true;
         let searchCategory = "";
         let searchTitle = "";
         let descendant = false;
-        let hideSearchBar = true;
-        let imageIdToDelete = 0; // used by confirmDeleteAccountDlg
-        let selectedCategory = "";
-        let imagesCount = 50;
-        let appendCount = 3;
-        let previousScrollPosition = 0;
-        let appendMode = false;
-        let connected = false;
-        let allUsers;
+
         init_UI();
         HEAD(checkETag, error);
         GET_ALL(RefreshCategoryList, error, "?fields=UserId,Username");
@@ -395,40 +397,33 @@
             }
         }
         function getImagesList(refresh = true) {
-            appendMode = !refresh;
-            function prepareQueryString() {
-                let queryString = "";
-                let searchTitle = $("#searchTitle").val();
-                selectedCategory = $("#searchCategory").val();
+            let queryString = "";
+            let searchTitle = $("#searchTitle").val();
+            let selectedCategory = $("#searchCategory").val();
 
-                if (appendMode) {
-                    if (descendant) {
-                        queryString = `?sort=Date,desc&offset=${Math.trunc(imagesCount / appendCount)}&limit=${appendCount}`;
-                        imagesCount += appendCount;
-                    }
-                    else {
-                        queryString = `?sort=Date,asc&offset=${Math.trunc(imagesCount / appendCount)}&limit=${appendCount}`;
-                        imagesCount += appendCount;
-                    }
-
+            if (refresh) {
+                if (descendant) {
+                    queryString = `sort=Date,desc&offset=0&limit=${imagesCount}`;
                 } else {
-                    if (descendant) {
-                        queryString = `?sort=Date,desc&offset=${0}&limit=${imagesCount}`;
-                    }
-                    else {
-                        queryString = `?sort=Date,asc&offset=${0}&limit=${imagesCount}`;
-                    }
-                    if (selectedCategory != "")
-                        queryString += "&UserId=" + selectedCategory;
-                    if (searchTitle != "") {
-                        queryString += "&keywords=" + searchTitle;
-                    }
-
-                    console.log(queryString);
+                    queryString = `sort=Date,asc&offset=0&limit=${imagesCount}`;
                 }
-                return queryString;
+            } else {
+                imagesCount += appendCount;
+                if (descendant) {
+                    queryString = `sort=Date,desc&offset=${Math.trunc(imagesCount / appendCount)}&limit=${appendCount}`;
+                } else {
+                    queryString = `sort=Date,asc&offset=${Math.trunc(imagesCount / appendCount)}&limit=${appendCount}`;
+                }
             }
-            GET_ALL(refreshimagesList, error, prepareQueryString());
+
+            if (selectedCategory !== "") {
+                queryString += `&UserId=${selectedCategory}`;
+            }
+            if (searchTitle !== "") {
+                queryString += `&keywords=${searchTitle}`;
+            }
+
+            GET_ALL(refreshimagesList, error, queryString);
         }
 
         //####################################################################################################################################################################################
@@ -558,7 +553,7 @@
             let imageToEdit = null;
             imageIdToEdit = e.target.getAttribute("imageid");
 
-            GET_ID(
+            GET_IMAGE_BY_ID(
                 imageIdToEdit,
                 img => {
                     imageToEdit = img;
@@ -574,7 +569,7 @@
         function deleteimage(e) {
             holdCheckETag = true;
             imageIdToDelete = e.target.getAttribute("imageid")
-            GET_ID(
+            GET_IMAGE_BY_ID(
                 imageIdToDelete,
                 image => {
                     $("#confirmationMessage").html("Voulez-vous vraiment effacer l'image <br><b>" + image.Title + "</b>?")
@@ -593,7 +588,7 @@
             let imgToShow = null;
             imageIdToShow = e.target.getAttribute("imageid");
 
-            GET_ID(
+            GET_IMAGE_BY_ID(
                 imageIdToShow,
                 img => {
                     imgToShow = img;
@@ -900,7 +895,7 @@
                         let account = retrieveLoggeduser();
                         if (account)
                             LOGOUT(refreshPage, error);
-                        DELETEUSER(account.Id, refreshPage, error);
+                        DELETE_USER(account.Id, refreshPage, error);
                         $(this).dialog("close");
                     }
                 },
@@ -994,7 +989,7 @@
                     click: function () {
                         holdCheckETag = false;
                         if (imageIdToDelete)
-                            DELETE(imageIdToDelete, refreshPage, error);
+                            DELETE_IMAGE(imageIdToDelete, refreshPage, error);
                         imageIdToDelete = 0;
                         $(this).dialog("close");
                     }
