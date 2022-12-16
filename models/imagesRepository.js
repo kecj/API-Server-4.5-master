@@ -75,7 +75,7 @@ module.exports = class ImagesRepository extends require("./repository") {
       let keywords = params.keywords.split(" ");
       if (keywords.length > 0) {
         return images.filter((image) => {
-          let text = (image.Title + " " + image.Description).toLowerCase();
+          let text = (image.Title + image.Description).toLowerCase();
           return keywords.every((keyword) => text.indexOf(keyword) >= 0);
         });
       }
