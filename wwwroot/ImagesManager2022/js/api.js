@@ -1,5 +1,5 @@
-const apiBaseURL = "http://localhost:5000/api/images";
-const apiURL = "http://localhost:5000";
+const apiBaseURL = "https://pictacloud.glitch.me/api/images";
+const apiURL = "https://pictacloud.glitch.me";
 let idUser = 0;
 function storeLoggedUser(userProfil) {
   sessionStorage.setItem("userProfil", JSON.stringify(userProfil));
