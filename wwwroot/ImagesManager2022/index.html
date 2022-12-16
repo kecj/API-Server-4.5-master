@@ -88,9 +88,7 @@
                 <span class="cmd fa fa-user-plus header-icons" id="subscribeCmd" title="Inscrivez-vous"
                     data-toggle="tooltip"></span>
             </div>
-
             <div class="connected-header" id="connected-header">
-
                 <img class="avatar header-icons" id="profileAvatar" src="No_Avatar.png" alt="user_avatar">
                 <span class="header-icons" id="profileName"></span>
                 <span class="cmd fa fa-user-tie header-icons" id="profileDataCmd" title="Afficher le profile"
@@ -99,7 +97,6 @@
                     data-toggle="tooltip"></span>
                 <span class="cmd fa fa-check header-icons" id="verifyCmd" title="Verifier-vous"
                     data-toggle="tooltip"></span>
-
             </div>
         </div>
 
@@ -212,7 +209,7 @@
             <label for="Verification_input">Code vérification</label>
             <input type="text" id="Verification_input" class="form-control" required>
         </div>
-        <div id="confirmDeleteDlg">
+        <div id="confirmDeleteAccountDlg">
             <span id="confirmationMessage"><span>Voulez-vous vraiment effacer votre compte?</span></span>
         </div>
 
@@ -248,7 +245,7 @@
         let searchTitle = "";
         let descendant = false;
         let hideSearchBar = true;
-        let imageIdToDelete = 0; // used by confirmDeleteDlg
+        let imageIdToDelete = 0; // used by confirmDeleteAccountDlg
         let selectedCategory = "";
         let imagesCount = 50;
         let appendCount = 3;
@@ -784,7 +781,7 @@
                     click: function () {
                         let account = accountFromForm();
                         holdCheckETag = false;
-                        $("#confirmDeleteDlg").dialog('open');
+                        $("#confirmDeleteAccountDlg").dialog('open');
                         $(this).dialog("close");
                     }
                 }]
@@ -886,7 +883,7 @@
                     }
                 }]
             });
-            $("#confirmDeleteDlg").dialog({
+            $("#confirmDeleteAccountDlg").dialog({
                 title: "Attention!",
                 autoOpen: false,
                 modal: true,
