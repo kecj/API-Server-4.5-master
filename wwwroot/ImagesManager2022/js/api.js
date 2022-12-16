@@ -1,4 +1,5 @@
 const apiBaseURL = "http://localhost:5000/api/images";
+const apiURL = "http://localhost:5000";
 let idUser = 0;
 function storeLoggedUser(userProfil) {
   sessionStorage.setItem("userProfil", JSON.stringify(userProfil));
@@ -48,7 +49,7 @@ function GET_ID(id, successCallBack, errorCallBack) {
 }
 function GET_USER_BY_ID(id, successCallBack, errorCallBack) {
   $.ajax({
-    url: "http://localhost:5000/Accounts/" + id,
+    url: apiURL + "/Accounts/" + id,
     type: "GET",
     success: (data) => {
       successCallBack(data);
@@ -100,8 +101,6 @@ function PUT(image, successCallBack, errorCallBack) {
   });
 }
 function DELETE(id, successCallBack, errorCallBack) {
-  // let user = sessionStorage.getItem("userProfil");
-  // let userid = JSON.parse(user).Id;
   $.ajax({
     url: apiBaseURL + "/" + id,
     type: "DELETE",
@@ -117,7 +116,7 @@ function DELETEUSER(id, successCallBack, errorCallBack) {
   let token = sessionStorage.getItem("token");
 
   $.ajax({
-    url: "http://localhost:5000/Accounts/remove/" + id,
+    url: apiURL + "/Accounts/remove/" + id,
     type: "GET",
     contentType: "application/json",
     headers: { Authorization: "Bearer" + token },
@@ -131,7 +130,7 @@ function DELETEUSER(id, successCallBack, errorCallBack) {
 }
 function LOGIN(data, successCallBack, errorCallBack) {
   $.ajax({
-    url: "http://localhost:5000/token",
+    url: apiURL + "/token",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(data),
@@ -148,7 +147,7 @@ function LOGOUT(successCallBack, errorCallBack) {
   let user = sessionStorage.getItem("userProfil");
   let userid = JSON.parse(user).Id;
   $.ajax({
-    url: "http://localhost:5000/Accounts/logout/" + userid,
+    url: apiURL + "/Accounts/logout/" + userid,
     type: "GET",
     data: {},
     headers: getBearerAuthorizationToken(),
@@ -163,9 +162,22 @@ function LOGOUT(successCallBack, errorCallBack) {
 }
 function VERIFY(VerifyCode, successCallBack, errorCallBack) {
   let userId = retrieveLoggeduser();
-  if (userId.Id != null) {
+  if (idUser != 0) {
     $.ajax({
-      url: `http://localhost:5000/Accounts/verify?id=${userId.Id}&code=${VerifyCode}`,
+      url: apiURL + `/Accounts/verify?id=${idUser}&code=${VerifyCode}`,
+      type: "GET",
+      contentType: "application/json",
+      data: JSON.stringify(VerifyCode),
+      success: (VerifyCode) => {
+        successCallBack(VerifyCode);
+      },
+      error: function (jqXHR) {
+        errorCallBack(jqXHR.status);
+      },
+    });
+  } else {
+    $.ajax({
+      url: apiURL + `/Accounts/verify?id=${userId.Id}&code=${VerifyCode}`,
       type: "GET",
       contentType: "application/json",
       data: JSON.stringify(VerifyCode),
@@ -180,7 +192,7 @@ function VERIFY(VerifyCode, successCallBack, errorCallBack) {
 }
 function GET_USER(id, successCallBack, errorCallBack) {
   $.ajax({
-    url: "http://localhost:5000/Accounts/index/" + id,
+    url: apiURL + "/Accounts/index/" + id,
     type: "GET",
     contentType: "text/plain",
     success: function (userProfil) {
@@ -194,7 +206,7 @@ function GET_USER(id, successCallBack, errorCallBack) {
 } //vérification du mot de passe.
 function REGISTER(data, successCallBack, errorCallBack) {
   $.ajax({
-    url: "http://localhost:5000/Accounts/register",
+    url: apiURL + "/Accounts/register",
     type: "POST",
     contentType: "application/json",
     data: JSON.stringify(data),
@@ -210,7 +222,7 @@ function REGISTER(data, successCallBack, errorCallBack) {
 
 function MODIFY(data, successCallBack, errorCallBack) {
   $.ajax({
-    url: "http://localhost:5000/Accounts/modify" + "/" + data.Id,
+    url: apiURL + "/Accounts/modify" + "/" + data.Id,
     type: "PUT",
     contentType: "application/json",
     headers: getBearerAuthorizationToken(),

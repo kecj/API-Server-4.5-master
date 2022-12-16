@@ -99,7 +99,7 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-#connectionBar {
+#disconnected-header {
     display: grid;
     grid-template-columns: 60px 60px;
     align-items: center;
@@ -108,7 +108,7 @@ body {
     margin-bottom: 10px;
 }
 
-#profilBar {
+#connected-header {
     display: grid;
     grid-template-columns: 80px 100px 60px 60px;
     align-items: center;

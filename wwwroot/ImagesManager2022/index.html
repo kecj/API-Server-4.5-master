@@ -1,4 +1,9 @@
-<!-- Fait Par Kyle Delisi et Anthony Boutin Dufour -->
+<!-- 
+    TRAVAIL FINAL
+    PictaCloud, gestionnaire d'image
+    Déveleppé par Kyle Delisi et Anthony Boutin Dufour,
+    15 décembre 2022
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -77,14 +82,14 @@
                     </div>
                 </div>
             </div>
-            <div class="connectionBar" id="connectionBar">
+            <div class="disconnected-header" id="disconnected-header">
                 <span class="cmd fa fa-right-to-bracket header-icons" id="loginCmd" title="Connectez-vous"
                     data-toggle="tooltip"></span>
                 <span class="cmd fa fa-user-plus header-icons" id="subscribeCmd" title="Inscrivez-vous"
                     data-toggle="tooltip"></span>
             </div>
 
-            <div class="profilBar" id="profilBar">
+            <div class="connected-header" id="connected-header">
 
                 <img class="avatar header-icons" id="profileAvatar" src="No_Avatar.png" alt="user_avatar">
                 <span class="header-icons" id="profileName"></span>
@@ -103,6 +108,9 @@
                 <!-- filled programmatically-->
             </div>
         </div>
+
+        <!-- Dialog des créateurs -->
+
         <div>
             <div id="CreatorsDlg">
                 <h4>PICTACLOUD Creators : </h4>
@@ -111,50 +119,53 @@
                 Anthony Boutin-Dufour
                 <br>
             </div>
-            <div id="imageDlg">
-                <form id="imageForm">
-                    <input type="hidden" id="Id_input" value="0">
-                    <input type="hidden" id="date_input" value="0">
-                    <input type="hidden" id="GUID_input" value="">
-
-                    <label for="title_input">Titre</label>
-                    <input type="text" id="title_input" class="form-control" required>
-
-                    <label for="decription_input">Description</label>
-                    <textarea id="description_input" class="form-control" required></textarea>
-
-                    <label for="image">Image</label>
-                    <div id='image' class='ImageUploader' defaultImage='images/No_Image.png'
-                        waitingImage='images/writing.gif'>
-                    </div>
-                    <div class="note">Cliquez-Déposez une image</div>
-                    <label for="shared_input">Partager</label>
-                    <input type="checkbox" id="shared_input">
-                </form>
-            </div>
-
-            <div id="imageDisplayDlg">
-                <img id="avatar_displayed" class="avatar" src="" alt="avatar">
-                <span id="username_displayed"></span>
-                <br>
-                <br>
-                <div id="title_displayed"></div>
-                <br>
-                <div id="description_displayed"></div>
-                <br>
-                <a href="" id="image_displayed_link"> <img id="image_displayed" src="" alt="image"></a>
-                <br>
-                <div id="date_displayed"></div>
-            </div>
         </div>
 
-        <div id="EmailVerification">
-            <input type="hidden" id="Id_input" value="0">
-            <span id="VerificationMessage">Consultez votre boite de courriel pour connaitre votre code de vérification
-                et inscrivez-le ci-dessous</span>
-            <label for="Verification_input">Code vérification</label>
-            <input type="text" id="Verification_input" class="form-control" required>
+        <!-------------------------->
+
+        <!--- Dialog des images ---->
+
+        <div id="imageDlg">
+            <form id="imageForm">
+                <input type="hidden" id="Id_input" value="0">
+                <input type="hidden" id="date_input" value="0">
+                <input type="hidden" id="GUID_input" value="">
+
+                <label for="title_input">Titre</label>
+                <input type="text" id="title_input" class="form-control" required>
+
+                <label for="decription_input">Description</label>
+                <textarea id="description_input" class="form-control" required></textarea>
+
+                <label for="image">Image</label>
+                <div id='image' class='ImageUploader' defaultImage='images/No_Image.png'
+                    waitingImage='images/writing.gif'>
+                </div>
+                <div class="note">Cliquez-Déposez une image</div>
+                <label for="shared_input">Partager</label>
+                <input type="checkbox" id="shared_input">
+            </form>
         </div>
+        <div id="imageShownDlg">
+            <img id="avatar_shown" class="avatar" src="" alt="avatar">
+            <span id="username_shown"></span>
+            <br>
+            <br>
+            <div id="title_shown"></div>
+            <br>
+            <div id="description_shown"></div>
+            <br>
+            <a href="" id="image_shown_link"> <img id="image_shown" src="" alt="image"></a>
+            <br>
+            <div id="date_shown"></div>
+        </div>
+        <div id="confirmDeleteImgDlg">
+            <span id="confirmationMessage"><span>Voulez-vous vraiment effacer votre image?</span></span>
+        </div>
+
+        <!-------------------------->
+
+        <!--- Dialog de comptes ---->
         <div id="AccountCreationDlg">
             <form id="CreationForm">
                 <input type="hidden" id="Idreg_input" value="0">
@@ -194,15 +205,27 @@
                 <input type="checkbox" id="password_remember"> Se souvenir de moi
             </form>
         </div>
+        <div id="EmailVerification">
+            <input type="hidden" id="Id_input" value="0">
+            <span id="VerificationMessage">Consultez votre boite de courriel pour connaitre votre code de vérification
+                et inscrivez-le ci-dessous</span>
+            <label for="Verification_input">Code vérification</label>
+            <input type="text" id="Verification_input" class="form-control" required>
+        </div>
         <div id="confirmDeleteDlg">
             <span id="confirmationMessage"><span>Voulez-vous vraiment effacer votre compte?</span></span>
         </div>
-        <div id="confirmDeleteImgDlg">
-            <span id="confirmationMessage"><span>Voulez-vous vraiment effacer votre image?</span></span>
-        </div>
+
+        <!-------------------------->
+
+        <!---   Dialog autres   ---->
+
         <div id="errorDlg">
             <span id="errorMessage"></span>
         </div>
+
+        <!-------------------------->
+
     </div>
 
     </div>
@@ -215,7 +238,9 @@
     <script src="js/api.js"></script>
     <script src="js/date.js"></script>
     <script defer>
-        const periodicRefreshPeriod = 15;
+
+        //### DÉCLARATION DES VARIABLES GLOBALS ####
+
         let holdCheckETag = false;
         let currentETag = "";
         let createMode = true;
@@ -230,11 +255,11 @@
         let previousScrollPosition = 0;
         let appendMode = false;
         let connected = false;
-        let userIdForCategory = "";
         let allUsers;
         init_UI();
         HEAD(checkETag, error);
-        setInterval(() => { HEAD(checkETag, error) }, periodicRefreshPeriod * 1000);
+        GET_ALL(RefreshCategoryList, error, "?fields=UserId,Username");
+        $(".fa-refresh").click(getImagesList);
 
         function checkETag(ETag) {
             if (!holdCheckETag && ETag != currentETag) {
@@ -242,20 +267,115 @@
                 getImagesList();
             }
         }
-        function Ascendant() {
-            if (descendant)
-                descendant = false;
-            else
-                descendant = true;
 
+        //########################################
+
+        // ###   RAFRAICHISSEMENT   ###########################################################################################################################################################
+
+        function RefreshCategoryList(users) {
+            allUsers = users;
+            $("#searchCategory").empty();
+            $("#searchCategory").append("<option value=''>Toutes les catégories</option>");
+            for (let item of users) {
+                let id = item.UserId;
+                let username = item.Username;
+                let selected = (selectedCategory == username ? " selected " : "");
+                $("#searchCategory").append(
+                    `<option value='${id}' ${selected}>${username}</option>`
+                );
+            }
             getImagesList();
+        }
+        function refreshimagesList(images, ETag) {
+            function insertIntoImageList(image) {
+                let user = retrieveLoggeduser();
+                let name;
+                $(".image").click(e => { showImage(e) });
+                $(".image").hover(function () {
+                    $(this).css('cursor', 'pointer');
+                }, function () {
+                    $(this).css('cursor', 'auto');
+                });
+
+                if (user != null && user.Id == image.UserId && user.VerifyCode == "verified") {
+                    $("#imagesList").append(
+                        $(`<div class='imageLayout'>
+                                        <div class='imageHeader'>
+                                            <div class="imageTitle">${image.Title}</div>
+                                        
+                                            <div    class="cmd editCmd  fa fa-pencil-square" id="editCmd"
+                                                        imageid="${image.Id}" 
+                                                        title="Editer ${image.Title}" 
+                                                        data-toggle="tooltip">
+                                                </div>
+                                                <div    class="cmd deleteCmd fa fa-window-close"  id="deleteCmd"
+                                                        imageid="${image.Id}" 
+                                                        title="Effacer ${image.Title}" 
+                                                        data-toggle="tooltip">
+                                                </div>
+                                            </div>
+
+                                            <div    id="image-container" class='image' imageid="${image.Id}" 
+                                                    style="background-image:url('${image.ThumbnailURL}')">
+                                                    
+                                                    <img src="${image.AvatarURL}" class='avatar' alt="user_avatar" title="${user.Name}" data-toggle="tooltip">
+                                                    ${image.Shared ? "<img src=images/sharedicon.png class='shared-icon' alt=sharing_icon>" : ""}
+                                            </div>
+                                        </a>
+                                        <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
+                                    </div>`)
+                    );
+                }
+                else {
+                    if (image.Shared) {
+                        $("#imagesList").append(
+                            $(`<div class='imageLayout'>
+                                            <div class='imageHeader'>
+                                                <div class="imageTitle">${image.Title}</div>
+                                                </div>
+                                                <div    class='image' imageid="${image.Id}"
+                                                        style="background-image:url('${image.ThumbnailURL}')">
+                                                    
+                                                        <img src="${image.AvatarURL}" class='avatar' alt="user_avatar"title="${image.Username}" data-toggle="tooltip">
+                                                </div>
+                                            </a>
+                                            <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
+                                        </div>`)
+                        );
+                    }
+                }
+            }
+
+            currentETag = ETag;
+            previousScrollPosition = $(".scrollContainer").scrollTop();
+            if (!appendMode) $("#imagesList").empty();
+
+            if (appendMode && images.length == 0)
+                imagesCount -= appendCount;
+
+            for (let image of images) {
+                insertIntoImageList(image);
+            }
+
+            $(".scrollContainer").scrollTop(previousScrollPosition);
+            $(".editCmd").off();
+            $(".deleteCmd").off();
+            $(".showMore").off();
+            $(".editCmd").click(e => { editimage(e) });
+            $(".deleteCmd").click(e => { deleteimage(e) });
+            $(".headerLayout");
+            $('[data-toggle="tooltip"]').tooltip();
+        }
+        function refreshPage() {
+            initHeaderPannel()
+            getImagesList()
         }
         function initHeaderPannel() {
             let user = retrieveLoggeduser()
 
             if (user) {
-                $("#connectionBar").hide();
-                $("#profilBar").show();
+                $("#disconnected-header").hide();
+                $("#connected-header").show();
                 $("#profileAvatar").attr("src", user.AvatarURL);;
                 $("#profileName").text(user.Name);
 
@@ -272,28 +392,11 @@
             }
             else {
                 $("#newImageCmd").hide();
-                $("#profilBar").hide();
+                $("#connected-header").hide();
                 $("#newImageCmd").hide();
-                $("#connectionBar").show();
+                $("#disconnected-header").show();
             }
         }
-
-        GET_ALL(RefreshCategoryList, error, "?fields=UserId,Username");
-        function RefreshCategoryList(users) {
-            allUsers = users;
-            $("#searchCategory").empty();
-            $("#searchCategory").append("<option value=''>Toutes les catégories</option>");
-            for (let item of users) {
-                let id = item.UserId;
-                let username = item.Username;
-                let selected = (selectedCategory == username ? " selected " : "");
-                $("#searchCategory").append(
-                    `<option value='${id}' ${selected}>${username}</option>`
-                );
-            }
-            getImagesList();
-        }
-        $(".fa-refresh").click(getImagesList);
         function getImagesList(refresh = true) {
             appendMode = !refresh;
             function prepareQueryString() {
@@ -321,7 +424,7 @@
                     if (selectedCategory != "")
                         queryString += "&UserId=" + selectedCategory;
                     if (searchTitle != "") {
-                        queryString += "&Title=*" + searchTitle + "*";
+                        queryString += "&keywords=" + searchTitle;
                     }
 
                     console.log(queryString);
@@ -330,101 +433,22 @@
             }
             GET_ALL(refreshimagesList, error, prepareQueryString());
         }
-        function refreshimagesList(images, ETag) {
-            setTimeout(function () {
-                function insertIntoImageList(image) {
-                    let user = retrieveLoggeduser();
-                    let name;
-                    $(".image").click(e => { displayImage(e) });
-                    $(".image").hover(function () {
-                        $(this).css('cursor', 'pointer');
-                    }, function () {
-                        $(this).css('cursor', 'auto');
-                    });
 
+        //####################################################################################################################################################################################
 
-                    if (user != null && user.Id == image.UserId) {
-                        if (user.VerifyCode != "verified") {
-                            $(".editCmd").hide();
-                            $(".deleteCmd").hide();
-                        }
-                        else {
-                            $(".editCmd").show();
-                            $(".deleteCmd").show();
-                        }
+        //###   FILTRAGE   ###################################################################################################################################################################
 
-
-                        $("#imagesList").append(
-                            $(`<div class='imageLayout'>
-                                        <div class='imageHeader'>
-                                            <div class="imageTitle">${image.Title}</div>
-                                        
-                                            <div    class="cmd editCmd  fa fa-pencil-square" id="editCmd"
-                                                        imageid="${image.Id}" 
-                                                        title="Editer ${image.Title}" 
-                                                        data-toggle="tooltip">
-                                                </div>
-                                                <div    class="cmd deleteCmd fa fa-window-close"  id="deleteCmd"
-                                                        imageid="${image.Id}" 
-                                                        title="Effacer ${image.Title}" 
-                                                        data-toggle="tooltip">
-                                                </div>
-                                            </div>
-
-                                            <div    id="image-container" class='image' imageid="${image.Id}" 
-                                                    style="background-image:url('${image.ThumbnailURL}')">
-                                                    
-                                                    <img src="${image.AvatarURL}" class='avatar' alt="user_avatar" title="${user.Name}" data-toggle="tooltip">
-                                                    ${image.Shared ? "<img src=images/sharedicon.png class='shared-icon' alt=sharing_icon>" : ""}
-                                            </div>
-                                        </a>
-                                        <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
-                                    </div>`)
-                        );
-                    }
-                    else {
-
-                        if (image.Shared) {
-                            $("#imagesList").append(
-                                $(`<div class='imageLayout'>
-                                            <div class='imageHeader'>
-                                                <div class="imageTitle">${image.Title}</div>
-                                                </div>
-                                                <div    class='image' imageid="${image.Id}"
-                                                        style="background-image:url('${image.ThumbnailURL}')">
-                                                    
-                                                        <img src="${image.AvatarURL}" class='avatar' alt="user_avatar"title="${image.Username}" data-toggle="tooltip">
-                                                </div>
-                                            </a>
-                                            <div class="imageDate">${convertToFrenchDate(parseInt(image.Date))}</div>
-                                        </div>`)
-                            );
-                        }
-                    }
-
-                    //image.userId == user.Id ? "shared.png":image.AvatarURL
-                }
-                currentETag = ETag;
-                previousScrollPosition = $(".scrollContainer").scrollTop();
-                if (!appendMode) $("#imagesList").empty();
-
-                if (appendMode && images.length == 0)
-                    imagesCount -= appendCount;
-
-                for (let image of images) {
-                    insertIntoImageList(image);
-                }
-
-                $(".scrollContainer").scrollTop(previousScrollPosition);
-                $(".editCmd").off();
-                $(".deleteCmd").off();
-                $(".showMore").off();
-                $(".editCmd").click(e => { editimage(e) });
-                $(".deleteCmd").click(e => { deleteimage(e) });
-                $(".headerLayout");
-                $('[data-toggle="tooltip"]').tooltip();
-            }, periodicRefreshPeriod);
+        function Ascendant() {
+            if (descendant)
+                descendant = false;
+            else
+                descendant = true;
+            getImagesList();
         }
+
+        //####################################################################################################################################################################################
+
+
 
         function error(status) {
             let errorMessage = "";
@@ -463,14 +487,34 @@
             $("#CreatorsDlg").dialog('open');
 
         }
+
+        //###   GESTION DE COMPTE   ###########################################################################################################################################################
+
         function newAccount() {
             holdCheckETag = true;
             createMode = true;
             resetAccountForm();
             ImageUploader.imageRequired('avatar', true);
             $("#AccountCreationDlg").dialog('option', 'title', "Création de compte");
+            $("#deleteAccountButton").hide();
             $("#AccountDlgOkBtn").text("Créer");
             $("#AccountCreationDlg").dialog('open');
+
+        }
+        function accountLogin() {
+            holdCheckETag = true;
+            createMode = true;
+            loginForm();
+            $("#AccountLoginDlg").dialog('option', 'title', "Connexion");
+            $("#AccountLoginDlg").dialog('open');
+        }
+        function accountLogout() {
+            holdCheckETag = true;
+            createMode = true;
+
+            $("#AccountLogoutDlg").dialog('option', 'title', "Déconnexion");
+            $("#LogoutMessage").text("Voulez-vous vraiment quitter?");
+            $("#AccountLogoutDlg").dialog("open");
 
         }
         function editAccount() {
@@ -484,54 +528,22 @@
             ImageUploader.setImage('avatar', user.AvatarURL);
             $("#emailreg_input").val(user.Email);
             $("#AccountCreationDlg").dialog('option', 'title', 'Modification du compte');
+            $("#deleteAccountButton").show();
             $("#AccountDlgOkBtn").text("Modifier");
             $("#AccountDlgDeleteBtn").text("Modifier");
             $("#AccountCreationDlg").dialog('open');
-
         }
         function VerifyAccount() {
             holdCheckETag = true;
             createMode = false;
 
             $("#EmailVerification").dialog('open');
-
         }
-        function displayImage(e) {
-            holdCheckETag = true;
-            createMode = false;
 
-            let imgToDisplay = null;
-            imageIdToDisplay = e.target.getAttribute("imageid");
+        //####################################################################################################################################################################################
 
-            GET_ID(
-                imageIdToDisplay,
-                img => {
-                    imgToDisplay = img;
+        //###   GESTION D'IMAGE   ############################################################################################################################################################
 
-                    imageToDisplay(imgToDisplay);
-
-                    $("#imageDisplayDlg").dialog('option', 'title', "Affichage d'image");
-                    $("#imageDisplayDlg").dialog('open');
-                },
-                error
-            );
-        }
-        function accountLogout() {
-            holdCheckETag = true;
-            createMode = true;
-
-            $("#AccountLogoutDlg").dialog('option', 'title', "Déconnexion");
-            $("#LogoutMessage").text("Voulez-vous vraiment quitter?");
-            $("#AccountLogoutDlg").dialog("open");
-
-        }
-        function accountLogin() {
-            holdCheckETag = true;
-            createMode = true;
-            loginForm();
-            $("#AccountLoginDlg").dialog('option', 'title', "Connexion");
-            $("#AccountLoginDlg").dialog('open');
-        }
         function newImage() {
             holdCheckETag = true;
             createMode = true;
@@ -577,6 +589,29 @@
             $("#confirmDeleteImgDlgOkBtn").text("Effacer");
             $("#confirmDeleteImgDlg").dialog('open');
         }
+        function showImage(e) {
+            holdCheckETag = true;
+            createMode = false;
+
+            let imgToShow = null;
+            imageIdToShow = e.target.getAttribute("imageid");
+
+            GET_ID(
+                imageIdToShow,
+                img => {
+                    imgToShow = img;
+
+                    imageToShow(imgToShow);
+
+                    $("#imageShownDlg").dialog('option', 'title', "Affichage d'image");
+                    $("#imageShownDlg").dialog('open');
+                },
+                error
+            );
+        }
+
+        //###   FORMULAIRES DE COMPTE   ######################################################################################################################################################
+
         function resetAccountForm() {
             $("#Id_input").val(0);
             $("#Avatar_GUID_input").val("");
@@ -585,14 +620,6 @@
             $("#password_input").val("");
             $("#confirmation_input").val("");
             ImageUploader.resetImage('avatar');
-        }
-        function resetimageForm() {
-            $("#Id_input").val("0");
-            $("#GUID_input").val("");
-            $("#date_input").val(Date.now());
-            $("#title_input").val("");
-            $("#description_input").val("");
-            ImageUploader.resetImage('image');
         }
         function accountFromForm() {
             if ($("#CreationForm")[0].checkValidity()) {
@@ -611,31 +638,24 @@
             return false;
         }
         function loginForm() {
-
             let account = {
                 Email: $("#email_input").val(),
                 Password: $("#password_input").val()
             };
             return account;
-
-
         }
-        function updateConnected() {
-            let profil = retrieveLoggeduser();
-            $("#VerifyBar").show();
-            if (profil) {
-                unverified = profil.verifyCode == "unverified";
-                $("#connectionBar").hide();
-                $("#profilBar").show();
-                $("#profileAvatar").attr("src", user.AvatarURL);
-                $("#profileName").text(user.Name);
-            }
-            else {
-                unverified = false;
-                $("#profilBar").show();
-                $("#connectionBar").hide();
-            }
-            getImagesList();
+
+        //####################################################################################################################################################################################
+
+        //###   FORMULAIRES D'IMAGES   #######################################################################################################################################################
+
+        function resetimageForm() {
+            $("#Id_input").val("0");
+            $("#GUID_input").val("");
+            $("#date_input").val(Date.now());
+            $("#title_input").val("");
+            $("#description_input").val("");
+            ImageUploader.resetImage('image');
         }
         function imageFromForm() {
             let connectedProfile = retrieveLoggeduser()
@@ -667,28 +687,35 @@
             $("#shared_input").prop("checked", image.Shared);
             ImageUploader.setImage('image', image.OriginalURL);
         }
-        function imageToDisplay(image) {
-            $("#avatar_displayed").prop("src", image.AvatarURL);
-            $("#username_displayed").text(image.Username);
-            $("#Id_displayed").val(image.Id);
-            $("#title_displayed").text(image.Title);
-            $("#description_displayed").text(image.Description);
-            $("#image_displayed_link").prop("href", image.OriginalURL);
-            $("#image_displayed").prop("src", image.OriginalURL);
-            $("#date_displayed").text(convertToFrenchDate(parseInt(image.Date)));
+
+        //####################################################################################################################################################################################
+
+        //###   MÉTHODES DIVERSES JAVASCRIPT   #######################################################################################################################################################
+
+        function imageToShow(image) {
+            $("#avatar_shown").prop("src", image.AvatarURL);
+            $("#username_shown").text(image.Username);
+            $("#title_shown").text(image.Title);
+            $("#description_shown").text(image.Description);
+            $("#image_shown_link").prop("href", image.OriginalURL);
+            $("#image_shown").prop("src", image.OriginalURL);
+            $("#date_shown").text(convertToFrenchDate(parseInt(image.Date)));
         }
 
+        //###   INITIALISATION DU UI   #######################################################################################################################################################
+
         function init_UI() {
+
+            //### DÉCLARATION DES CALLBACKS ####
+
             loggedUser = retrieveLoggeduser()
+            initHeaderPannel() //Afficher les informations de l'usager
             $("#header-logo").click(showCreators)
             $("#header-logo").hover(function () {
                 $(this).css('cursor', 'pointer');
             }, function () {
                 $(this).css('cursor', 'auto');
             });
-
-            //Show login credential if connected
-            initHeaderPannel()
             $("#sortCmd").click(Ascendant)
             $("#newImageCmd").click(newImage)
             $("#subscribeCmd").click(newAccount)
@@ -706,6 +733,62 @@
 
             })
 
+            //#############################
+
+            //###   DIALOG DE COMPTE   ####
+
+            $("#AccountCreationDlg").dialog({
+                title: "...",
+                autoOpen: false,
+                modal: true,
+                show: { effect: 'fade', speed: 400 },
+                hide: { effect: 'fade', speed: 400 },
+                width: 640,
+                minWidth: 640,
+                maxWidth: 640,
+                height: 780,
+                minHeight: 780,
+                maxHeight: 780,
+                position: { my: "center", at: "center", of: window },
+                buttons: [{
+                    id: "AccountDlgOkBtn",
+                    text: "Title will be changed dynamically",
+                    click: function () {
+                        //accountfromform function a faire
+                        let account = accountFromForm();
+                        if (account) {
+                            if (createMode) {
+                                REGISTER(account, refreshPage, error);
+                                $(this).dialog("close");
+                                $("#EmailVerification").dialog('open');
+                            }
+                            else {
+                                let tempuser = retrieveLoggeduser();
+                                account.Id = tempuser.Id;
+                                MODIFY(account, refreshPage, error);
+
+                                $(this).dialog("close");
+                            }
+                        }
+                    }
+                }, {
+                    text: "Annuler",
+                    click: function () {
+                        holdCheckETag = false;
+                        $(this).dialog("close");
+                    }
+                }, {
+                    //enlever compte
+                    text: "Desinscrire",
+                    id: "deleteAccountButton",
+                    click: function () {
+                        let account = accountFromForm();
+                        holdCheckETag = false;
+                        $("#confirmDeleteDlg").dialog('open');
+                        $(this).dialog("close");
+                    }
+                }]
+            });
             $("#AccountLogoutDlg").dialog({
                 title: "...",
                 autoOpen: false,
@@ -723,7 +806,7 @@
                     id: "LoginDlgOkBtn",
                     text: "Déconnecter",
                     click: function () {
-                        LOGOUT(updateConnected, error);
+                        LOGOUT(refreshPage, error);
                         holdCheckETag = false;
                         $(this).dialog("close");
                     }
@@ -732,8 +815,11 @@
                     click: function () {
                         holdCheckETag = false;
                         $(this).dialog("close");
+
                     }
+
                 }]
+
             })
             $("#AccountLoginDlg").dialog({
                 title: "...",
@@ -755,11 +841,8 @@
                         let account = loginForm();
 
                         if (account) {
-                            LOGIN(account, updateConnected, error);
+                            LOGIN(account, refreshPage, error);
                             connected = true;
-                        }
-                        if (account) {
-
                         }
                         holdCheckETag = false;
                         $(this).dialog("close");
@@ -791,7 +874,7 @@
                     click: function () {
 
                         let codeverif = $("#Verification_input").val()
-                        VERIFY(codeverif, getImagesList, error);
+                        VERIFY(codeverif, refreshPage, error);
                         $(this).dialog("close");
                     }
                 },
@@ -802,76 +885,41 @@
                         $(this).dialog("close");
                     }
                 }]
-            })
-            $("#CreatorsDlg").dialog({
-                title: "...",
+            });
+            $("#confirmDeleteDlg").dialog({
+                title: "Attention!",
                 autoOpen: false,
                 modal: true,
                 show: { effect: 'fade', speed: 400 },
                 hide: { effect: 'fade', speed: 400 },
                 width: 500, minWidth: 500, maxWidth: 500,
-                height: 500, minHeight: 500, maxHeight: 500,
+                height: 230, minHeight: 230, maxHeight: 230,
                 position: { my: "top", at: "top", of: window },
                 buttons: [{
-                    text: "Fermer",
+                    id: "confirmDeleteDlgOkBtn",
+                    text: "Oui",
                     click: function () {
                         holdCheckETag = false;
+                        let account = retrieveLoggeduser();
+                        if (account)
+                            LOGOUT(refreshPage, error);
+                        DELETEUSER(account.Id, refreshPage, error);
+                        $(this).dialog("close");
+                    }
+                },
+                {
+                    text: "Annuler",
+                    click: function () {
+                        holdCheckETag = false;
+
                         $(this).dialog("close");
                     }
                 }]
             });
-            $("#AccountCreationDlg").dialog({
 
-                title: "...",
-                autoOpen: false,
-                modal: true,
-                show: { effect: 'fade', speed: 400 },
-                hide: { effect: 'fade', speed: 400 },
-                width: 640,
-                minWidth: 640,
-                maxWidth: 640,
-                height: 780,
-                minHeight: 780,
-                maxHeight: 780,
-                position: { my: "center", at: "center", of: window },
-                buttons: [{
-                    id: "AccountDlgOkBtn",
-                    text: "Title will be changed dynamically",
-                    click: function () {
-                        //accountfromform function a faire
-                        let account = accountFromForm();
-                        if (account) {
-                            if (createMode) {
-                                REGISTER(account, getImagesList, error);
-                                $(this).dialog("close");
-                                $("#EmailVerification").dialog('open');
-                            }
-                            else {
-                                let tempuser = retrieveLoggeduser();
-                                account.Id = tempuser.Id;
-                                MODIFY(account, getImagesList, error);
+            //#############################
 
-                                $(this).dialog("close");
-                            }
-                        }
-                    }
-                }, {
-                    text: "Annuler",
-                    click: function () {
-                        holdCheckETag = false;
-                        $(this).dialog("close");
-                    }
-                }, {
-                    //enlever compte
-                    text: "Desinscrire",
-                    click: function () {
-                        let account = accountFromForm();
-                        holdCheckETag = false;
-                        $("#confirmDeleteDlg").dialog('open');
-                        $(this).dialog("close");
-                    }
-                }]
-            })
+            //###   DIALOG D'IMAGE   ####
 
             $("#imageDlg").dialog({
                 title: "...",
@@ -893,11 +941,11 @@
                         let image = imageFromForm();
                         if (image) {
                             if (createMode) {
-                                POST(image, getImagesList, error);
+                                POST(image, refreshPage, error);
                                 $(".scrollContainer").scrollTop(0);
                             }
                             else
-                                PUT(image, getImagesList, error);
+                                PUT(image, refreshPage, error);
                             resetimageForm();
                             holdCheckETag = false;
                             $(this).dialog("close");
@@ -912,7 +960,7 @@
                     }
                 }]
             });
-            $("#imageDisplayDlg").dialog({
+            $("#imageShownDlg").dialog({
                 title: "...",
                 autoOpen: false,
                 modal: true,
@@ -934,38 +982,6 @@
                         }
                     }]
             });
-
-            $("#confirmDeleteDlg").dialog({
-                title: "Attention!",
-                autoOpen: false,
-                modal: true,
-                show: { effect: 'fade', speed: 400 },
-                hide: { effect: 'fade', speed: 400 },
-                width: 500, minWidth: 500, maxWidth: 500,
-                height: 230, minHeight: 230, maxHeight: 230,
-                position: { my: "top", at: "top", of: window },
-                buttons: [{
-                    id: "confirmDeleteDlgOkBtn",
-                    text: "Oui",
-                    click: function () {
-                        holdCheckETag = false;
-                        let account = retrieveLoggeduser();
-                        if (account)
-                            LOGOUT(updateConnected, error);
-                        DELETEUSER(account.Id, getImagesList, error);
-                        $(this).dialog("close");
-                    }
-                },
-                {
-                    text: "Annuler",
-                    click: function () {
-                        holdCheckETag = false;
-
-                        $(this).dialog("close");
-                    }
-                }]
-            });
-
             $("#confirmDeleteImgDlg").dialog({
                 title: "Attention!",
                 autoOpen: false,
@@ -981,7 +997,7 @@
                     click: function () {
                         holdCheckETag = false;
                         if (imageIdToDelete)
-                            DELETE(imageIdToDelete, getImagesList, error);
+                            DELETE(imageIdToDelete, refreshPage, error);
                         imageIdToDelete = 0;
                         $(this).dialog("close");
                     }
@@ -990,12 +1006,32 @@
                     text: "Annuler",
                     click: function () {
                         holdCheckETag = false;
-
                         $(this).dialog("close");
                     }
                 }]
             });
 
+            //#############################
+
+            //###   DIALOG DIVERS   ####
+
+            $("#CreatorsDlg").dialog({
+                title: "...",
+                autoOpen: false,
+                modal: true,
+                show: { effect: 'fade', speed: 400 },
+                hide: { effect: 'fade', speed: 400 },
+                width: 500, minWidth: 500, maxWidth: 500,
+                height: 500, minHeight: 500, maxHeight: 500,
+                position: { my: "top", at: "top", of: window },
+                buttons: [{
+                    text: "Fermer",
+                    click: function () {
+                        holdCheckETag = false;
+                        $(this).dialog("close");
+                    }
+                }]
+            });
             $("#errorDlg").dialog({
                 title: "Erreur...",
                 autoOpen: false,
@@ -1015,12 +1051,16 @@
                 }]
             });
 
+            //#############################
+
             $(".scrollContainer").scroll(function () {
                 if ($(".scrollContainer").scrollTop() + $(".scrollContainer").innerHeight() >= $("#imagesList").height()) {
                     getImagesList(false);
                 }
             });
         }
+
+        //####################################################################################################################################################################################
     </script>
 
 </body>

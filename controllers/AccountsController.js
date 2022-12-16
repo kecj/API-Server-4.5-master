@@ -50,7 +50,7 @@ module.exports = class AccountsController extends require("./Controller") {
   sendConfirmedEmail(user) {
     let html = `
                 Bonjour ${user.Name}, <br /> <br />
-                Votre courriel a été confirmé.
+                Votre courriel a été confirmé avec succes.
             `;
     const gmail = new Gmail();
     gmail.send(user.Email, "Courriel confirmé...", html);
